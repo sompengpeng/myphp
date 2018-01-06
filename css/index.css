@@ -1,0 +1,32 @@
+@charset "utf-8";
+body{
+	font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft YaheiUI",
+	"Microsoft YaHei",SimHei,"\5B8B\4F53",simsun,sans-serif;
+	 background-color: #fff; 
+	 /* color: #666; */
+	  
+}
+.list{
+	font-size: 25px;
+}
+.number{
+	font-size: 20px;
+	text-align: right;
+}
+.headth{
+	background-color: #eee;
+	text-align: center;
+}
+.pencil{
+	color: rgb(0, 0, 255);
+}
+.remove{
+	color: rgb(212, 106, 64);
+}
+.add{
+	color: #f00;
+}
+.home{
+	text-align: right;
+	color: #00F;
+}
