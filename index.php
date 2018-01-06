@@ -49,26 +49,42 @@
 					<thead>
 						<tr class="headth">
 							<td>序号</td>
-							<td>标题</td>
-							<td>时间</td>
-							<td>内容</td>
-							<td>操作</td>
+							<td>合同编号</td>
+							<td>工程编号</td>
+							<td>用户单位</td>
+							<td>项目名称</td>
+							<td>电梯型号</td>
+							<td>产品规格</td>
+							<td>联系人</td>
+							<td>电话号码</td>
+							<td>下单日期</td>
+							<td>发货地址</td>
+							<td>备注信息</td>
+							<td>修改/删除</td>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
 						include ("conn.php");//引入连接数据库
-					 	$sql="select * from `xwxzb` order by id desc";
+					 	$sql="select * from `xwxsb` order by id desc";
 					 	$query=mysqli_query($conn,$sql);
 					 	//$rs=mysqli_fetch_array($query);
 					 	while($rs=mysqli_fetch_array($query)){
 					 	?>
 					 	<tr>
 						<td><?php echo $rs['id']?></td>
-						<td><?php echo $rs['title']?></td>
-						<td><?php echo $rs['dates']?></td>
-						<td><?php echo $rs['contents']?></td>
-						<td><span class="glyphicon glyphicon-pencil pencil">修改</span> &nbsp;|&nbsp;<span class="glyphicon glyphicon-remove remove"><a href="del.php?del=<?php echo $rs['id']?>">删除</a></span></td>
+						<td><?php echo $rs['htbh']?></td>
+						<td><?php echo $rs['gcbh']?></td>
+						<td><?php echo $rs['userunit']?></td>
+						<td><?php echo $rs['titel']?></td>
+						<td><?php echo $rs['dtxh']?></td>
+						<td><?php echo $rs['cpgg']?></td>
+						<td><?php echo $rs['customer']?></td>
+						<td><?php echo $rs['iphone']?></td>
+						<td><?php echo $rs['date']?></td>
+						<td><?php echo $rs['conter']?></td>
+						<td><?php echo $rs['remark']?></td>
+						<td><span class="glyphicon glyphicon-pencil pencil">修改</span> | <span class="glyphicon glyphicon-remove remove"><a href="del.php?del=<?php echo $rs['id']?>">删除</a></span></td>
 						</tr>
 						<?php  
 							}
