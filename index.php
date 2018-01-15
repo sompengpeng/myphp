@@ -7,6 +7,24 @@
 	<title>销售部下单</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/index.css">
+	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<!-- Placeholder -->
+	<script src="js/jquery.placeholder.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Main JS -->
+	<script src="js/main.js"></script>
+	<script src="js/bootstrap-datetimepicker.min.js"></script>
+	<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="js/moment-with-locales.js"></script>
 </head>
 	<body>	
 	<div class="jumbotron">
@@ -38,7 +56,7 @@
 			                <div class="input-group">
 			                    <input type="text" name="inputsearch" class="form-control" placeholder="请输入工程编号">
 			                    <span class="input-group-btn">
-			                    <button class="btn btn-primary" name="submit" type="button" style="margin-right:10px">查询</button>
+			                    <button class="btn btn-primary" name="sub" type="button" style="margin-right:10px">查询</button>
 			                    </span>
 			                </div><!-- /input-group -->
             			</div><!-- /.col-lg-6 -->
@@ -59,55 +77,75 @@
 							<td>电话号码</td>
 							<td>下单日期</td>
 							<td>发货地址</td>
+							<td>预计发货日期</td>
 							<td>备注信息</td>
 							<td>修改/删除</td>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
-						include ("conn.php");//引入连接数据库
-					 	$sql="select * from `xwxsb` order by id desc";
-					 	$query=mysqli_query($conn,$sql);
-					 	//$rs=mysqli_fetch_array($query);
-					 	while($rs=mysqli_fetch_array($query)){
-					 	?>
-					 	<tr>
-						<td><?php echo $rs['id']?></td>
-						<td><?php echo $rs['htbh']?></td>
-						<td><?php echo $rs['gcbh']?></td>
-						<td><?php echo $rs['userunit']?></td>
-						<td><?php echo $rs['titel']?></td>
-						<td><?php echo $rs['dtxh']?></td>
-						<td><?php echo $rs['cpgg']?></td>
-						<td><?php echo $rs['customer']?></td>
-						<td><?php echo $rs['iphone']?></td>
-						<td><?php echo $rs['date']?></td>
-						<td><?php echo $rs['conter']?></td>
-						<td><?php echo $rs['remark']?></td>
-						<td><span class="glyphicon glyphicon-pencil pencil">修改</span> | <span class="glyphicon glyphicon-remove remove"><a href="del.php?del=<?php echo $rs['id']?>">删除</a></span></td>
-						</tr>
-						<?php  
-							}
-						?>
+						//include ("conn.php");//引入连接数据库
+						include "./mysql.php";
+						include "./page.php";//导入分页代码
+					//连接数据库
+						$conn=new Mysql();
+						//
+						$pageSize=8;        //每页显示的记录数
+						$sql="select * from `xwxsb` order by id desc";
+						//echo $sql;
+						$totalRows=$conn->getResultNum($sql);   //总记录数
+						$totalPage=ceil($totalRows/$pageSize);  //总页数
+						$page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:1;//当前页数
+						if($page<1||$page==null||!is_numeric($page)){
+						    $page=1;
+						}
+						if($page>=$totalPage)$page=$totalPage;
+						$offset=($page-1)*$pageSize;
+
+						$sql="select * from `xwxsb` order by id desc limit {$offset},{$pageSize} ";
+						echo $sql;
+						$result=$conn->sql($sql);
+						
+					 	foreach ($result as $k=>$v){
+					 		echo "<tr><td>{$v['id']}</td>";
+			    			echo "<td>{$v['htbh']}</td>";
+			   			    echo "<td>{$v['gcbh']}</td>";
+			   			    echo "<td>{$v['userunit']}</td>";
+			   			    echo "<td>{$v['titel']}</td>";
+			   			    echo "<td>{$v['dtxh']}</td>";
+			   			    echo "<td>{$v['cpgg']}</td>";
+			   			    echo "<td>{$v['customer']}</td>";
+			   			    echo "<td>{$v['iphone']}</td>";
+			   			    echo "<td>{$v['date']}</td>";
+			   			    echo "<td>{$v['conter']}</td>";
+			   			    echo "<td>{$v['datas']}</td>";
+			   			    echo "<td>{$v['remark']}</td>";
+			   			    echo "<td><span class='glyphicon glyphicon-pencil pencil'><a href='edits.php?edit={$v['id']}'>修改</a></span>|<span class='glyphicon glyphicon-remove remove'><a href='del.php?del={$v['id']}' onclick='return confirmAct();'>删除</a></span></td>";
+						}
+					//echo showPage($page,$totalPage);
+					//关闭数据库
+					$conn->close();
+					?>
+					 	
 					</tbody>
 				</table>
+				<div style="text-align: right; font-size: 16px;">
+					<?php echo showPage($page,$totalPage);?>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-		 	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/bootstrap.js"></script>
-	<!-- Placeholder -->
-	<script src="js/jquery.placeholder.min.js"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<!-- Main JS -->
-	<script src="js/main.js"></script>
-
-	</body>
+	<!--执行删除操作-->
+		<script type="text/javascript">
+			function confirmAct(){
+				if(confirm('确定要删除吗？')){
+					return true;
+				}
+					return false;
+			}
+		</script>
+</body>
 </html>
 
 
