@@ -86,6 +86,7 @@
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<?php define('FROM_INDEX', true);?>
 	<?php 
 	$link = mysqli_connect('localhost', 'root', '', 'xwuser');
 	if (!$link){

@@ -42,8 +42,8 @@
 							<td>项目名称</td>
 							<td>电梯型号</td>
 							<td>产品规格</td>
-							<td>联系人</td>
-							<td>电话号码</td>
+							<td>联系人/电话</td>
+							
 							<td>下单日期</td>
 							<td>发货地址</td>
 							<td>预计发货日期</td>
@@ -53,11 +53,26 @@
 				</thead>
 				 <tbody>
 				 	<?php
+				 	// Turn off all error reporting;关闭所有的错误 
+					error_reporting(0); 
 				 	include ("conn.php");//引入连接数据库
+				 	if(!empty($_POST[''])){
+				 		echo "<script>location.href='error.php'</script>为空的情况！";
+				 	}else{
+				 		echo "不能为空！";
+				 	}
 				  	if(!empty($_POST['inputsearch'])){
 				  		$rs=$_POST['inputsearch'];	
-				  	$sql="select * from `xwxsb` where `gcbh` like '%{$rs}%'";
-				  	//echo $sql;
+				  	    $sql="select * from `xwxsb` where `gcbh` like '%{$rs}%'";
+					}else if(!empty($_POST['searuse'])){
+						$rs=$_POST['searuse'];
+						$sql="select * from `xwxsb` where `userunit` like '%{$rs}%'";	
+						echo $sql;
+					}else if(!empty($_POST['titels'])){
+						$rs=$_POST['titels'];
+						$sql="select * from `xwxsb` where `titel` like '%{$rs}%'";
+						echo "sql:";
+						echo $sql;
 					}else{
 						echo "查询失败，请联系管理员";
 					}
@@ -77,12 +92,12 @@
 						<td><?php echo $rs['dtxh']?></td>
 						<td><?php echo $rs['cpgg']?></td>
 						<td><?php echo $rs['customer']?></td>
-						<td><?php echo $rs['iphone']?></td>
+						
 						<td><?php echo $rs['date']?></td>
 						<td><?php echo $rs['conter']?></td>
 						<td><?php echo $rs['datas']?></td>
 						<td><?php echo $rs['remark']?></td>
-				 	<td><span class="glyphicon glyphicon-pencil pencil"><a href="edits.php?edit=<?php echo $rs['id']?>">修改</a></span> &nbsp;|&nbsp;<span class="glyphicon glyphicon-remove remove"><a href='del.php?del={$v['id']}' onclick='return confirmAct();'>删除</a></span>
+				 	<td><a class='tooltip-test' data-toggle='tooltip' title='修改' href="edits.php?edit=<?php echo $rs['id']?>"><span class="glyphicon glyphicon-pencil pencil"></span></a> &nbsp;|&nbsp;<a  class='tooltip-test' data-toggle='tooltip' title='删除' href='del.php?del={$v['id']}' onclick='return confirmAct();'><span class="glyphicon glyphicon-remove remove"></span></a>
 				 	</td>			 	
 				  	</tr>
 				  	<?php }

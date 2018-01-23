@@ -38,28 +38,59 @@
 <div id="information">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div>
 				<table class="table table-bordered">
 					<form action="search.php" method='POST'>
 						<div class="row">
-							<div class="col-lg-2 list">
-								<p>下单列表：</p>
+							<div class="col-lg-1 list">
+									<span class="glyphicon glyphicon-list">LIST
+									</span>
+								
 							</div>
-							<div class="col-lg-4 add">
+							<div class="col-lg-1 add">
 								<a href="add.php"><h4><span class="glyphicon glyphicon-edit"></span></h4></a>
 							</div>
-							<div class="col-lg-2 number">
-								<p>工程编号：</p>
+							<!--用户单位查询-->
+							<div class="col-lg-3 searuse">
+								<div class="col-md-12">
+									<span class="glyphicon glyphicon-user"> 用户单位查询
+									</span>
+								</div>	
+								<div class="col-md-12"><input class="form-control" type="text" placeholder="请输入用户单位"  name="searuse" value=""/></div>
+								
 							</div>
-						
-						<div class="col-lg-4">
-			                <div class="input-group">
-			                    <input type="text" name="inputsearch" class="form-control" placeholder="请输入工程编号">
-			                    <span class="input-group-btn">
-			                    <button class="btn btn-primary" name="sub" type="button" style="margin-right:10px">查询</button>
-			                    </span>
-			                </div><!-- /input-group -->
-            			</div><!-- /.col-lg-6 -->
+							<!--用户单位查询-->
+							
+							<!--项目名称-->
+							<div class="col-lg-3 titels">
+								<div class="col-md-12">
+									<span class="glyphicon glyphicon-leaf">  项目名称</span>
+								</div>
+								<div class="col-md-12">
+									<input type="text" class="form-control"  placeholder="请输入项目名称" name="titels" value=""/>
+								</div>	
+							</div>
+							<!--项目名称-->
+							<!--工程编号-->
+							<div class="col-lg-3">
+				                <div class="col-md-12">
+				                	<span class="glyphicon glyphicon-wrench">  工程编号
+				                	</span>
+				                </div>
+				                <div class="col-md-12">
+				                	<input type="text" name="inputsearch" class="form-control" placeholder="请输入工程编号" value=""/>
+				                </div>
+				            </div><!-- /.col-lg-3 -->
+			                <!--工程编号-->
+			                <!--提交按钮-->
+			                <div class="col-lg-1">
+			                	<div class="col-md-12">
+			                		<span class="glyphicon glyphicon-screenshot"></span>
+			                	</div>
+			                	<div class="col-md-12">    		
+			                		<input  class="btn btn-primary btn-sm " type="submit" name="搜索"/>
+			                	</div>
+			                </div>
 						</div>
 						
 					</form>
@@ -73,17 +104,21 @@
 							<td>项目名称</td>
 							<td>电梯型号</td>
 							<td>产品规格</td>
-							<td>联系人</td>
-							<td>电话号码</td>
-							<td>下单日期</td>
+							<td>联系人/电话</td>
 							<td>发货地址</td>
-							<td>预计发货日期</td>
+							<td>下单日期</td>
+							<td>预发货日期</td>
+							<td>实发货日期</td>
+							<td>区域</td>
 							<td>备注信息</td>
 							<td>修改/删除</td>
 						</tr>
 					</thead>
 					<tbody>
+						
 						<?php
+						// Turn off all error reporting;关闭所有的错误 
+						error_reporting(0); 
 						//include ("conn.php");//引入连接数据库
 						include "./mysql.php";
 						include "./page.php";//导入分页代码
@@ -103,7 +138,7 @@
 						$offset=($page-1)*$pageSize;
 
 						$sql="select * from `xwxsb` order by id desc limit {$offset},{$pageSize} ";
-						echo $sql;
+						//echo $sql;
 						$result=$conn->sql($sql);
 						
 					 	foreach ($result as $k=>$v){
@@ -114,13 +149,14 @@
 			   			    echo "<td>{$v['titel']}</td>";
 			   			    echo "<td>{$v['dtxh']}</td>";
 			   			    echo "<td>{$v['cpgg']}</td>";
-			   			    echo "<td>{$v['customer']}</td>";
-			   			    echo "<td>{$v['iphone']}</td>";
-			   			    echo "<td>{$v['date']}</td>";
+			   			    echo "<td>{$v['customer']}</td>"; 
 			   			    echo "<td>{$v['conter']}</td>";
+			   			    echo "<td>{$v['date']}</td>";
 			   			    echo "<td>{$v['datas']}</td>";
+			   			    echo "<td>{$v['sdatas']}</td>";
+			   			    echo "<td>{$v['area']}</td>";
 			   			    echo "<td>{$v['remark']}</td>";
-			   			    echo "<td><span class='glyphicon glyphicon-pencil pencil'><a href='edits.php?edit={$v['id']}'>修改</a></span>|<span class='glyphicon glyphicon-remove remove'><a href='del.php?del={$v['id']}' onclick='return confirmAct();'>删除</a></span></td>";
+			   			    echo "<td><a class='tooltip-test' data-toggle='tooltip' title='修改' href='edits.php?edit={$v['id']}'><span class='glyphicon glyphicon-pencil pencil'></span></a>|<a class='tooltip-test' data-toggle='tooltip' title='删除' href='del.php?del={$v['id']}' onclick='return confirmAct();'><span class='glyphicon glyphicon-remove remove'></span></a></td>";
 						}
 					//echo showPage($page,$totalPage);
 					//关闭数据库

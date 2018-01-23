@@ -13,18 +13,21 @@
 	 	$dtxh=$_POST['dtxh'];//电梯型号
 	 	$cpgg=$_POST['cpgg'];//产品规格
 	 	$customer=$_POST['customer'];//联系人
-	 	$iphone=$_POST['iphone'];//电话
+	 	//$iphone=$_POST['iphone'];//电话
 	 	//$date=$_POST['date'];//下单日期
 	 	$conter=$_POST['conter'];//发货地址
+	 	$area=$_POST['area'];
+	 	//echo "下拉列表：";
+	 	//echo $area;
 	 	$datas=$_POST['datas'];//预计发货日期
+	 	$sdatas=$_POST['sdatas'];//实发货日期
 	 	$remark=$_POST['remark'];//备注
-	     $sql="INSERT INTO `xwxsb`(`id`, `htbh`, `gcbh`, `userunit`,`titel`,`dtxh`,`cpgg`,`customer`,`iphone`,`date`,`conter`,`datas`,`remark`) VALUES (null,'$htbh','$gcbh','$userunit','$titel','$dtxh','$cpgg','$customer','$iphone',now(),'$conter','$datas','$remark')";
+	     $sql="INSERT INTO `xwxsb`(`id`, `htbh`, `gcbh`, `userunit`,`titel`,`dtxh`,`cpgg`,`customer`,`date`,`conter`,`area`,`datas`,`sdatas`,`remark`) VALUES (null,'$htbh','$gcbh','$userunit','$titel','$dtxh','$cpgg','$customer',now(),'$conter','$area','$datas','sdatas','$remark')";
 	    mysqli_query($conn,$sql);
 	    mysqli_close($conn);
 	    echo "插入成功";
 	    echo "<script>alert('插入数据成功')</script>";
 	    echo "<script>location.href='index.php'</script>";
-
 	 }
  	}
 	 
